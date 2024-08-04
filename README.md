@@ -2,33 +2,30 @@
 
 A Git-inspired tool to easily keep a GitHub repository and a Overleaf project in sync.
 
-Feel free to use this for your own resume or adapt it for your own purposes!
-I wrote this exclusively to manage my LaTeX resume versions with Git without
-having to pay for Overleaf Premium's history feature or GitHub integration,
-but it should be easy to adapt for any Overleaf project! I plan to release
-this as a Python package with a CLI soon, so you can easily manage any Overleaf
-project's history with Git.
+Feel free to use this for your own resume or adapt it for your own purposes! I wrote this exclusively to manage my LaTeX resume versions with Git without having to pay for Overleaf Premium's history feature or GitHub integration, but it should be easy to adapt for any Overleaf project! I plan to release this as a Python package with a CLI soon, so you can easily manage any Overleaf project's history with Git.
 
-Eventually, I'd like to import the package here and take all the code out of
-this repository, but until I turn this code into a Python package, my resume
-will live among the source code keeping it in sync with Overleaf and GitHub.
+Eventually, I'd like to import the package here and take all the code out of this repository, but until I turn this code into a Python package, my resume will live among the source code keeping it in sync with Overleaf.
+
+## Resume
+
+If you legitimately just came here to find my resume, I'm 1) really impressed by your dedication and 2) [happy to share it](https://ashwinak-resume.tiiny.site/)! While you're at it, feel free to check out my [LinkedIn](https://www.linkedin.com/in/ashwinak/) and [website](https://ashwinak.com) as well! Additionally, if you're technical and have ideas on how I can improve this, I'm all ears.
 
 ## Setup
 
 1. Clone this repository.
 2. Make sure you are logged into Overleaf on your default browser.
-3. Run `python3 main.py configure` to select your desired project.
-4. Run `python3 main.py pull` to pull your current project into this repository.
+3. Run `bin/configure` to select your desired project.
+4. Run `bin/pull` to pull your current project into your local repo.
 
 ## Usage
 
-- When you edit your Overleaf project locally, run `python3 main.py push` to push your changes to Overleaf.
-- When you edit your project on Overleaf, run `python3 main.py pull` to pull your changes from Overleaf.
-- Run `python3 main.py sync` to mirror your Overleaf files to `REMOTE_DIR`, your local repository's replica of remote.
+- When you edit your Overleaf project locally, run `bin/push` to push your changes to Overleaf.
+- When you edit your project on Overleaf, run `bin/pull` to pull your changes from Overleaf.
+- Run `bin/sync` to mirror your Overleaf files to `REMOTE_DIR`, your local repository's replica of remote.
   - NOTE: This operation does not change any of your local files in `CONTENT_DIR`.
-- Run `python3 main.py check` to SAFELY check if your local files and Overleaf project are in sync.
+- Run `bin/check` to SAFELY check if your local files and Overleaf project are in sync.
   - NOTE: This operation will never change any files.
-- If you ever want to change the project you are working on, run `python3 main.py configure` to select a new project.
+- If you ever want to change the project you are working on, run `bin/configure` to select a new project.
 
 ## Configuration
 
