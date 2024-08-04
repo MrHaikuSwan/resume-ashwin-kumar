@@ -21,26 +21,55 @@ class OverleafLogin(NamedTuple):
 # Set global config variables from `state.json`
 with open("config.json") as config_file:
     config = json.load(config_file)
-    PROJECT_NAME = Path(config["project_name"])
+    logger.debug(f"config:\n{json.dumps(config, indent=2)}")
+    # Project Specifications
+    PROJECT_NAME = config["project_name"]
+    PROJECT_ID = config["project_id"]
+    # Path Specifications
     CONTENT_DIR = Path(config["content_dir"])
     REMOTE_DIR = Path(config["remote_dir"])
     TEMP_ARCHIVE = Path(config["temp_archive"])
-    logging.debug(f"config:\n{json.dumps(config, indent=2)}")
 
 
-def overleaf_login(project_name):
+def overleaf_show():
+    api = pyoverleaf.Api()
+    api.login_from_browser()
+    projects = [
+        p for p in api.get_projects() if p.access_level == "owner"
+    ]  # for safety, only expose owned projects
+
+    # Display all project names and IDs
+    print("Owned Projects:")
+    for project in projects:
+        print(f"\t{project.name}\t({project.id})")
+
+
+def overleaf_login(project_name, project_id):
     """Logs into an Overleaf project and returns an OverleafLogin object."""
     api = pyoverleaf.Api()
     api.login_from_browser()
-    projects = api.get_projects()
-    for project in projects:
-        if project.name == project_name:
-            break
+    projects = [
+        p for p in api.get_projects() if p.access_level == "owner"
+    ]  # for safety, only expose owned projects
+
+    # Attempt to find specific project
+    matching_projects = [
+        p for p in projects if p.name == project_name and p.id == project_id
+    ]
+    if len(matching_projects) != 1:
+        raise ValueError(f"Project {project_name} not found: {matching_projects}")
+    project = matching_projects[0]
+    assert project.name == project_name, f"Project {project_name} not found"
     io = pyoverleaf.ProjectIO(api, project.id)
     return OverleafLogin(api, project, io)
 
 
 def overleaf_push(login: OverleafLogin):
+    api, project, io = login
+    assert project.access_level == "owner", "Project must be owned"
+    assert project.id == PROJECT_ID, "Project ID does not match"
+    assert project.name == PROJECT_NAME, "Project name does not match"
+
     assert not TEMP_ARCHIVE.exists()
     assert REMOTE_DIR.exists() and REMOTE_DIR.is_dir()
     assert CONTENT_DIR.exists() and CONTENT_DIR.is_dir()
@@ -48,14 +77,14 @@ def overleaf_push(login: OverleafLogin):
     temp_dir = Path(TEMP_ARCHIVE.stem)
     assert not temp_dir.exists()
 
-    logging.debug("Pushing project...")
+    logger.info("Pushing project...")
 
     # Download project, unzip to temporary directory
-    api, project, io = login
     api.download_project(project.id, TEMP_ARCHIVE)
     temp_dir.mkdir()
     with zipfile.ZipFile(TEMP_ARCHIVE, "r") as zip_ref:
         zip_ref.extractall(temp_dir)
+    TEMP_ARCHIVE.unlink()
 
     # Verify remote/ and pulled content match
     dcmp = dircmp(REMOTE_DIR, temp_dir)
@@ -66,10 +95,13 @@ def overleaf_push(login: OverleafLogin):
         raise ValueError("Remote and pulled content differ, local state is out of sync")
     shutil.rmtree(temp_dir)
 
-    # Overwrite remote Overleaf content with local content/
+    # Overwrite remote Overleaf content with local content/ (UNSAFE -- BE CAUTIOUS)
+
     ## Delete all remote files (UNSAFE)
     for fp in io.listdir("."):
         io.remove(fp)
+    ##
+
     ## Create all remote files from content/
     content_paths = [Path(*p.parts[1:]) for p in CONTENT_DIR.rglob("*")]
     content_dir_paths = [p for p in content_paths if p.is_dir()]
@@ -85,10 +117,15 @@ def overleaf_push(login: OverleafLogin):
 
     assert not TEMP_ARCHIVE.exists()
     assert not temp_dir.exists()
-    logging.debug("Finished pushing project.")
+    logger.info("Finished pushing project.")
 
 
 def overleaf_pull(login: OverleafLogin):
+    api, project, _ = login
+    assert project.access_level == "owner", "Project must be owned"
+    assert project.id == PROJECT_ID, "Project ID does not match"
+    assert project.name == PROJECT_NAME, "Project name does not match"
+
     assert not TEMP_ARCHIVE.exists()
     assert REMOTE_DIR.exists() and REMOTE_DIR.is_dir()
     assert CONTENT_DIR.exists() and CONTENT_DIR.is_dir()
@@ -96,10 +133,9 @@ def overleaf_pull(login: OverleafLogin):
     temp_dir = Path(TEMP_ARCHIVE.stem)
     assert not temp_dir.exists()
 
-    logging.debug("Pulling project...")
+    logger.info("Pulling project...")
 
     # Download project, unzip to temporary directory
-    api, project, _ = login
     api.download_project(project.id, TEMP_ARCHIVE)
     temp_dir.mkdir()
     with zipfile.ZipFile(TEMP_ARCHIVE, "r") as zip_ref:
@@ -125,54 +161,65 @@ def overleaf_pull(login: OverleafLogin):
         zip_ref.extractall(CONTENT_DIR)
         shutil.rmtree(temp_remote_dir)
         shutil.rmtree(temp_content_dir)
+    TEMP_ARCHIVE.unlink()
 
     assert not TEMP_ARCHIVE.exists()
     assert not temp_dir.exists()
-    logging.debug("Finished pulling project.")
+    logger.info("Finished pulling project.")
 
 
 def overleaf_sync(login: OverleafLogin):
-    logging.debug("Syncing project...")
+    api, project, _ = login
+    assert project.access_level == "owner", "Project must be owned"
+    assert project.id == PROJECT_ID, "Project ID does not match"
+    assert project.name == PROJECT_NAME, "Project name does not match"
+
+    logger.info("Syncing project...")
 
     # Download project, unzip to remote directory (create if DNE)
-    api, project, _ = login
     api.download_project(project.id, TEMP_ARCHIVE)
     shutil.rmtree(REMOTE_DIR)
     REMOTE_DIR.mkdir(parents=True)
     with zipfile.ZipFile(TEMP_ARCHIVE, "r") as zip_ref:
         zip_ref.extractall(REMOTE_DIR)
+    TEMP_ARCHIVE.unlink()
 
     # Create empty content directory if DNE (convenience)
     if not CONTENT_DIR.exists():
-        logging.info(f"No content directory found -- creating {CONTENT_DIR}...")
+        logger.info(f"No content directory found -- creating {CONTENT_DIR}...")
         CONTENT_DIR.mkdir(parents=True)
-        logging.info(
+        logger.info(
             f"Created empty {CONTENT_DIR} -- run `overleaf-pull` to populate the content directory with the current remote content"
         )
     else:
         # Compare remote/ and content/, notify user (diffs are expected)
         dcmp = dircmp(REMOTE_DIR, CONTENT_DIR)
         if dcmp.diff_files or dcmp.left_only or dcmp.right_only or dcmp.funny_files:
-            print("Differences found between remote and local content:\n---")
+            print(f"Differences found between {REMOTE_DIR} and {CONTENT_DIR}:\n---")
             dcmp.report()
             print("---")
 
     assert not TEMP_ARCHIVE.exists()
-    logging.debug("Finished syncing project.")
+    logger.info("Finished syncing project.")
 
 
 def overleaf_check(login: OverleafLogin):
-    logging.debug("Checking for synchronicity...")
+    api, project, _ = login
+    assert project.access_level == "owner", "Project must be owned"
+    assert project.id == PROJECT_ID, "Project ID does not match"
+    assert project.name == PROJECT_NAME, "Project name does not match"
+
+    logger.info("Checking for synchronicity...")
 
     temp_dir = Path(TEMP_ARCHIVE.stem)
     assert not temp_dir.exists()
 
     # Download project, unzip to temporary directory
-    api, project, _ = login
     api.download_project(project.id, TEMP_ARCHIVE)
     temp_dir.mkdir()
     with zipfile.ZipFile(TEMP_ARCHIVE, "r") as zip_ref:
         zip_ref.extractall(temp_dir)
+    TEMP_ARCHIVE.unlink()
 
     # Compare remote/ and pulled content, notify user (diffs are expected)
     dcmp = dircmp(REMOTE_DIR, temp_dir)
@@ -183,7 +230,7 @@ def overleaf_check(login: OverleafLogin):
     shutil.rmtree(temp_dir)
 
     assert not TEMP_ARCHIVE.exists()
-    logging.debug("Synchronization check complete.")
+    logger.info("Synchronization check complete.")
 
 
 def main():
@@ -192,7 +239,10 @@ def main():
     # Get cmdline args
     allowed_ops = ["push", "pull", "sync", "check"]
     if len(sys.argv) != 2 or sys.argv[1] not in allowed_ops:
-        raise ValueError(f"Usage: python3 overleaf_ops.py [{'|'.join(allowed_ops)}]")
+        print(f"Usage: python3 overleaf_ops.py [{'|'.join(allowed_ops)}]")
+        overleaf_show()
+        sys.exit(1)
+
     overleaf_ops = {
         "push": overleaf_push,
         "pull": overleaf_pull,
@@ -217,7 +267,7 @@ def main():
         )
 
     # Execute Overleaf operation
-    login = overleaf_login(PROJECT_NAME)
+    login = overleaf_login(PROJECT_NAME, PROJECT_ID)
     overleaf_op(login)
 
 

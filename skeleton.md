@@ -8,7 +8,8 @@
 
 ## `overleaf-push`
 
-- Must not overwrite changes on remote, since Overleaf has bad version management
+- UNSAFE OPERATION -- REQUIRES CAUTION DURING DEVELOPMENT
+- Must not overwrite new changes on remote, since Overleaf has bad version management
 - Accomplishes this by locally maintaining a remote archive that is always up to date with the remote
 - Pulls remote Overleaf content to a temporary local archive (as a .zip)
   - Note: Fails if a temporary local archive already exists
