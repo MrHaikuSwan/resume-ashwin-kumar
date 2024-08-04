@@ -28,9 +28,15 @@
 
 ## `overleaf-sync`
 
-- Safely mirrors the remote Overleaf project to the locally maintained remote archive
+- Mirrors the remote Overleaf project to the locally maintained remote archive
 - Creates a remote archive stored on local (as a .zip)
   - Note: Fails if a remote archive already exists
 - Pulls remote Overleaf content into remote archive
 - Throws INFO to user if content archive doesn't exist yet
-- Throws WARN to user if content archive exists but doesn't match remote archive
+- Informs user if content archive exists but doesn't match remote archive
+
+## `overleaf-check`
+
+- Safely checks for synchronicity between the remote Overleaf project to the locally maintained remote archive
+- Pulls remote Overleaf content to a temporary local archive (as a .zip)
+- Informs user if remote Overleaf content doesn't match remote archive

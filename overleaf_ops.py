@@ -149,6 +149,13 @@ def overleaf_sync(login: OverleafLogin):
         logging.info(
             f"Created empty {CONTENT_DIR} -- run `overleaf-pull` to populate the content directory with the current remote content"
         )
+    else:
+        # Compare remote/ and content/, notify user (diffs are expected)
+        dcmp = dircmp(REMOTE_DIR, CONTENT_DIR)
+        if dcmp.diff_files or dcmp.left_only or dcmp.right_only or dcmp.funny_files:
+            print("Differences found between remote and local content:\n---")
+            dcmp.report()
+            print("---")
 
     assert not TEMP_ARCHIVE.exists()
     logging.debug("Finished syncing project.")
