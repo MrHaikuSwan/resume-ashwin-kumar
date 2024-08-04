@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+# overleaf-push
+
+set -o errexit   # abort on nonzero exitstatus
+set -o nounset   # abort on unbound variable
+set -o pipefail  # don't hide errors within pipes
+
+parent_path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
+cd "$parent_path/.."
+
+python3 main.py push
+
+git add .
+git commit -m "$(date +%Y-%m-%d): Pushed local changes"
+git push

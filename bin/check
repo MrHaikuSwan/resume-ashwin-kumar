@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# overleaf-check
+
+set -o errexit   # abort on nonzero exitstatus
+set -o nounset   # abort on unbound variable
+set -o pipefail  # don't hide errors within pipes
+
+parent_path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
+cd "$parent_path/.."
+
+python3 main.py check
