@@ -190,11 +190,15 @@ def main():
     logging.basicConfig(level=logging.INFO)
 
     # Get cmdline args
-    if len(sys.argv) != 2 or sys.argv[1] not in ["push", "pull", "sync"]:
-        raise ValueError(
-            "Usage: python3 overleaf_ops.py <command> where <command> is one of: push, pull, sync"
-        )
-    overleaf_ops = {"push": overleaf_push, "pull": overleaf_pull, "sync": overleaf_sync}
+    allowed_ops = ["push", "pull", "sync", "check"]
+    if len(sys.argv) != 2 or sys.argv[1] not in allowed_ops:
+        raise ValueError(f"Usage: python3 overleaf_ops.py [{'|'.join(allowed_ops)}]")
+    overleaf_ops = {
+        "push": overleaf_push,
+        "pull": overleaf_pull,
+        "sync": overleaf_sync,
+        "check": overleaf_check,
+    }
     command = sys.argv[1]
     overleaf_op = overleaf_ops[command]
 
