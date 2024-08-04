@@ -12,5 +12,12 @@ cd "$parent_path/.."
 python3 main.py push
 
 git add .
-git commit -m "$(date +%Y-%m-%d): Pushed local changes"
+
+if [ $# -eq 1 ]
+then
+  git commit -m "OVERLEAF-PUSH: $1"
+else
+  git commit -m "OVERLEAF-PUSH: Local changes made"
+fi
+
 git push

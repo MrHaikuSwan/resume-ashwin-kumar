@@ -12,5 +12,12 @@ cd "$parent_path/.."
 python3 main.py pull
 
 git add .
-git commit -m "$(date +%Y-%m-%d): Pulled Overleaf changes"
+
+if [ $# -eq 1 ]
+then
+  git commit -m "OVERLEAF-PULL: $1"
+else
+  git commit -m "OVERLEAF-PUSH: Remote changes made"
+fi
+
 git push
