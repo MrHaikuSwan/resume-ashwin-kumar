@@ -40,17 +40,13 @@ def overleaf_push(login: OverleafLogin):
         print(f"Differences found between {REMOTE_DIR} and pulled content:\n---")
         dcmp.report()
         print("---")
+        shutil.rmtree(temp_dir)
         raise ValueError("Remote and pulled content differ, local state is out of sync")
     shutil.rmtree(temp_dir)
 
     # Overwrite remote Overleaf content with local content/ (UNSAFE -- BE CAUTIOUS)
 
-    ## UNSAFE
-    for fp in io.listdir("."):
-        io.remove(fp)
-    ## UNSAFE
-
-    ## Create all remote files from content/
+    ## Upsert new/updated local files to remote Overleaf
     content_paths = [Path(*p.parts[1:]) for p in CONTENT_DIR.rglob("*")]
     content_dir_paths = [p for p in content_paths if p.is_dir()]
     content_blob_paths = [p for p in content_paths if not p.is_dir()]
@@ -58,10 +54,24 @@ def overleaf_push(login: OverleafLogin):
         io.mkdir(path, exist_ok=True, parents=True)
     for path in content_blob_paths:
         with io.open(path, "wb") as outfile:
-            outfile.write(path.read_bytes())
+            outfile.write((CONTENT_DIR / path).read_bytes())
+
+    ## Delete locally removed files from remote Overleaf
+    remote_paths = [Path(*p.parts[1:]) for p in REMOTE_DIR.rglob("*")]
+    remote_blob_paths = [p for p in remote_paths if not p.is_dir()]
+    remote_dir_paths = [p for p in remote_paths if p.is_dir()]
+    remote_paths_to_remove = [
+        p for p in remote_blob_paths + remote_dir_paths if p not in content_paths
+    ]
+    for path in remote_paths_to_remove:
+        io.remove(path)
 
     # Re-synchronize remote/ with remote Overleaf content
+    temp_remote_dir = Path(f"temp_{REMOTE_DIR}")
+    shutil.move(REMOTE_DIR, temp_remote_dir, copy_function=shutil.copytree)
+    REMOTE_DIR.mkdir()
     shutil.copytree(CONTENT_DIR, REMOTE_DIR, dirs_exist_ok=True)
+    shutil.rmtree(temp_remote_dir)
 
     assert not TEMP_ARCHIVE.exists()
     assert not temp_dir.exists()
