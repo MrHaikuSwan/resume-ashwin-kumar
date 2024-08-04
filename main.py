@@ -1,6 +1,5 @@
 from filecmp import dircmp
 from pathlib import Path
-
 import logging
 import shutil
 import sys
