@@ -41,11 +41,51 @@ def overleaf_login(project_name):
 
 
 def overleaf_push(login: OverleafLogin):
-    logging.debug("Pushing project...")
     assert not TEMP_ARCHIVE.exists()
+    assert REMOTE_DIR.exists() and REMOTE_DIR.is_dir()
+    assert CONTENT_DIR.exists() and CONTENT_DIR.is_dir()
+
+    temp_dir = Path(TEMP_ARCHIVE.stem)
+    assert not temp_dir.exists()
+
+    logging.debug("Pushing project...")
+
+    # Download project, unzip to temporary directory
     api, project, io = login
     api.download_project(project.id, TEMP_ARCHIVE)
-    pass
+    temp_dir.mkdir()
+    with zipfile.ZipFile(TEMP_ARCHIVE, "r") as zip_ref:
+        zip_ref.extractall(temp_dir)
+
+    # Verify remote/ and pulled content match
+    dcmp = dircmp(REMOTE_DIR, temp_dir)
+    if dcmp.diff_files or dcmp.left_only or dcmp.right_only or dcmp.funny_files:
+        print("Differences found between remote and pulled content:\n---")
+        dcmp.report()
+        print("---")
+        raise ValueError("Remote and pulled content differ, local state is out of sync")
+    shutil.rmtree(temp_dir)
+
+    # Overwrite remote Overleaf content with local content/
+    ## Delete all remote files (UNSAFE)
+    for fp in io.listdir("."):
+        io.remove(fp)
+    ## Create all remote files from content/
+    content_paths = [Path(*p.parts[1:]) for p in CONTENT_DIR.rglob("*")]
+    content_dir_paths = [p for p in content_paths if p.is_dir()]
+    content_blob_paths = [p for p in content_paths if not p.is_dir()]
+    for path in content_dir_paths:
+        io.mkdir(path, exist_ok=True, parents=True)
+    for path in content_blob_paths:
+        with io.open(path, "wb") as outfile:
+            outfile.write(path.read_bytes())
+
+    # Re-synchronize remote/ with remote Overleaf content
+    shutil.copytree(CONTENT_DIR, REMOTE_DIR, dirs_exist_ok=True)
+
+    assert not TEMP_ARCHIVE.exists()
+    assert not temp_dir.exists()
+    logging.debug("Finished pushing project.")
 
 
 def overleaf_pull(login: OverleafLogin):
@@ -58,7 +98,7 @@ def overleaf_pull(login: OverleafLogin):
 
     logging.debug("Pulling project...")
 
-    # Download project, unzip to remote directory
+    # Download project, unzip to temporary directory
     api, project, _ = login
     api.download_project(project.id, TEMP_ARCHIVE)
     temp_dir.mkdir()
@@ -71,6 +111,7 @@ def overleaf_pull(login: OverleafLogin):
         print("Differences found between remote and pulled content:\n---")
         dcmp.report()
         print("---")
+    shutil.rmtree(temp_dir)
 
     # Safely overwrite REMOTE_DIR and CONTENT_DIR with pulled content
     with zipfile.ZipFile(TEMP_ARCHIVE, "r") as zip_ref:
@@ -85,6 +126,8 @@ def overleaf_pull(login: OverleafLogin):
         shutil.rmtree(temp_remote_dir)
         shutil.rmtree(temp_content_dir)
 
+    assert not TEMP_ARCHIVE.exists()
+    assert not temp_dir.exists()
     logging.debug("Finished pulling project.")
 
 
@@ -94,17 +137,21 @@ def overleaf_sync(login: OverleafLogin):
     # Download project, unzip to remote directory (create if DNE)
     api, project, _ = login
     api.download_project(project.id, TEMP_ARCHIVE)
-    REMOTE_DIR.mkdir(parents=True, exist_ok=True)
+    shutil.rmtree(REMOTE_DIR)
+    REMOTE_DIR.mkdir(parents=True)
     with zipfile.ZipFile(TEMP_ARCHIVE, "r") as zip_ref:
         zip_ref.extractall(REMOTE_DIR)
 
     # Create empty content directory if DNE (convenience)
     if not CONTENT_DIR.exists():
-        logging.INFO(f"No content directory found -- creating {CONTENT_DIR}...")
+        logging.info(f"No content directory found -- creating {CONTENT_DIR}...")
         CONTENT_DIR.mkdir(parents=True)
-        logging.INFO(
+        logging.info(
             f"Created empty {CONTENT_DIR} -- run `overleaf-pull` to populate the content directory with the current remote content"
         )
+
+    assert not TEMP_ARCHIVE.exists()
+    logging.debug("Finished syncing project.")
 
 
 def main():
