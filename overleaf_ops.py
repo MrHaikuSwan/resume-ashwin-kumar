@@ -1,4 +1,5 @@
 from filecmp import dircmp
+from operator import index
 from pathlib import Path
 from typing import NamedTuple
 import json
@@ -8,6 +9,7 @@ import sys
 import zipfile
 
 import pyoverleaf
+from tabulate import tabulate
 
 logger = logging.getLogger(__name__)
 
@@ -31,7 +33,7 @@ with open("config.json") as config_file:
     TEMP_ARCHIVE = Path(config["temp_archive"])
 
 
-def overleaf_show():
+def overleaf_configure():
     api = pyoverleaf.Api()
     api.login_from_browser()
     projects = [
@@ -40,8 +42,33 @@ def overleaf_show():
 
     # Display all project names and IDs
     print("Owned Projects:")
-    for project in projects:
-        print(f"\t{project.name}\t({project.id})")
+    table = [[i, p.name, p.id] for i, p in enumerate(projects, start=1)]
+    print(tabulate(table, headers=["Index", "Name", "ID"]))
+    print()
+
+    # Get user project selection to configure
+    config_index = input("Enter the index of the project to use: ")
+    while config_index not in [str(i) for i in range(1, len(projects) + 1)]:
+        print("Invalid index. Please try again.")
+        config_index = input("Enter the index of the project to use: ")
+
+    # Configure selected project
+    config_index = int(config_index)
+    config_project = projects[config_index - 1]
+    with open("config.json", "r") as config_file:
+        config = json.load(config_file)
+    with open("config.json", "w") as config_file:
+        config["project_name"] = config_project.name
+        config["project_id"] = config_project.id
+        json.dump(config, config_file, indent=2)
+    print(f"Project {config_project.name} ({config_project.id}) configured.")
+
+    # Set up directories
+    if not REMOTE_DIR.exists():
+        REMOTE_DIR.mkdir(parents=True)
+    if not CONTENT_DIR.exists():
+        CONTENT_DIR.mkdir(parents=True)
+    print(f"Confirmed existence of {REMOTE_DIR} and {CONTENT_DIR} directories.")
 
 
 def overleaf_login(project_name, project_id):
@@ -97,10 +124,10 @@ def overleaf_push(login: OverleafLogin):
 
     # Overwrite remote Overleaf content with local content/ (UNSAFE -- BE CAUTIOUS)
 
-    ## Delete all remote files (UNSAFE)
+    ## UNSAFE
     for fp in io.listdir("."):
         io.remove(fp)
-    ##
+    ## UNSAFE
 
     ## Create all remote files from content/
     content_paths = [Path(*p.parts[1:]) for p in CONTENT_DIR.rglob("*")]
@@ -140,13 +167,6 @@ def overleaf_pull(login: OverleafLogin):
     temp_dir.mkdir()
     with zipfile.ZipFile(TEMP_ARCHIVE, "r") as zip_ref:
         zip_ref.extractall(temp_dir)
-
-    # Compare remote/ and pulled content, notify user (diffs are expected)
-    dcmp = dircmp(REMOTE_DIR, temp_dir)
-    if dcmp.diff_files or dcmp.left_only or dcmp.right_only or dcmp.funny_files:
-        print("Differences found between remote and pulled content:\n---")
-        dcmp.report()
-        print("---")
     shutil.rmtree(temp_dir)
 
     # Safely overwrite REMOTE_DIR and CONTENT_DIR with pulled content
@@ -237,11 +257,13 @@ def main():
     logging.basicConfig(level=logging.INFO)
 
     # Get cmdline args
-    allowed_ops = ["push", "pull", "sync", "check"]
+    allowed_ops = ["push", "pull", "sync", "check", "configure"]
     if len(sys.argv) != 2 or sys.argv[1] not in allowed_ops:
-        print(f"Usage: python3 overleaf_ops.py [{'|'.join(allowed_ops)}]")
-        overleaf_show()
-        sys.exit(1)
+        print(f"\nUsage: python3 overleaf_ops.py [{'|'.join(allowed_ops)}]")
+        return
+    if sys.argv[1] == "configure":
+        overleaf_configure()
+        return
 
     overleaf_ops = {
         "push": overleaf_push,

@@ -5,6 +5,7 @@
 - overleaf-push
 - overleaf-pull
 - overleaf-sync
+- overleaf-check
 
 ## `overleaf-push`
 
@@ -38,6 +39,6 @@
 
 ## `overleaf-check`
 
-- Safely checks for synchronicity between the remote Overleaf project to the locally maintained remote archive
+- SAFELY checks for synchronicity between the remote Overleaf project to the locally maintained remote archive
 - Pulls remote Overleaf content to a temporary local archive (as a .zip)
 - Informs user if remote Overleaf content doesn't match remote archive
