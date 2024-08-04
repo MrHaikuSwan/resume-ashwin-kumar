@@ -22,7 +22,8 @@
 
 ## `overleaf-pull`
 
-- Can overwrite changes on local, since local Git has good version management
+- May overwrite changes on local, since local Git has good version management
+- Avoids unnecessary overwriting by checking for discrepancies between local and remote archives
 - Pulls remote Overleaf content to a temporary local archive (as a .zip)
 - Overwrites locally maintained content and remote archives with remote Overleaf content
   - Note: Have to unzip temporary local archive before overwriting content archive

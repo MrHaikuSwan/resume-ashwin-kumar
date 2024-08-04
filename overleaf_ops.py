@@ -1,5 +1,4 @@
 from filecmp import dircmp
-from operator import index
 from pathlib import Path
 from typing import NamedTuple
 import json
@@ -113,10 +112,10 @@ def overleaf_push(login: OverleafLogin):
         zip_ref.extractall(temp_dir)
     TEMP_ARCHIVE.unlink()
 
-    # Verify remote/ and pulled content match
+    # Verify remote/ and pulled content match -- avoid overwriting new remote Overleaf changes
     dcmp = dircmp(REMOTE_DIR, temp_dir)
     if dcmp.diff_files or dcmp.left_only or dcmp.right_only or dcmp.funny_files:
-        print("Differences found between remote and pulled content:\n---")
+        print(f"Differences found between {REMOTE_DIR} and pulled content:\n---")
         dcmp.report()
         print("---")
         raise ValueError("Remote and pulled content differ, local state is out of sync")
@@ -161,6 +160,14 @@ def overleaf_pull(login: OverleafLogin):
     assert not temp_dir.exists()
 
     logger.info("Pulling project...")
+
+    # Verify remote/ and content/ match -- avoid overwriting new local content changes
+    dcmp = dircmp(REMOTE_DIR, CONTENT_DIR)
+    if dcmp.diff_files or dcmp.left_only or dcmp.right_only or dcmp.funny_files:
+        print(f"Differences found between {REMOTE_DIR} and {CONTENT_DIR}:\n---")
+        dcmp.report()
+        print("---")
+        raise ValueError("Remote and content differ, local state is out of sync")
 
     # Download project, unzip to temporary directory
     api.download_project(project.id, TEMP_ARCHIVE)
@@ -244,7 +251,7 @@ def overleaf_check(login: OverleafLogin):
     # Compare remote/ and pulled content, notify user (diffs are expected)
     dcmp = dircmp(REMOTE_DIR, temp_dir)
     if dcmp.diff_files or dcmp.left_only or dcmp.right_only or dcmp.funny_files:
-        print("Differences found between remote and pulled content:\n---")
+        print(f"Differences found between {REMOTE_DIR} and pulled content:\n---")
         dcmp.report()
         print("---")
     shutil.rmtree(temp_dir)
