@@ -1,3 +1,4 @@
+from typing import NamedTuple
 import pyoverleaf
 from pathlib import Path
 import json
@@ -5,6 +6,12 @@ import sys
 import logging
 
 logger = logging.getLogger(__name__)
+
+
+class OverleafLogin(NamedTuple):
+    api: pyoverleaf.Api
+    project: pyoverleaf.Project
+    io: pyoverleaf.ProjectIO
 
 
 # Set global config variables from `state.json`
@@ -17,15 +24,39 @@ with open("config.json") as config_file:
     logging.debug(f"config:\n{json.dumps(config, indent=2)}")
 
 
-def overleaf_push(io):
+def overleaf_login(project_name):
+    """Logs into an Overleaf project and returns an OverleafLogin object."""
+    api = pyoverleaf.Api()
+    api.login_from_browser()
+    projects = api.get_projects()
+    for project in projects:
+        if project.name == project_name:
+            break
+    io = pyoverleaf.ProjectIO(api, project.id)
+    return OverleafLogin(api, project, io)
+
+
+def overleaf_push(login: OverleafLogin):
+    logging.debug("Pushing project...")
+    assert not TEMP_ARCHIVE.exists()
+    api, project, io = login
+    api.download_project(project.id, TEMP_ARCHIVE)
     pass
 
 
-def overleaf_pull(io):
+def overleaf_pull(login: OverleafLogin):
+    logging.debug("Pulling project...")
+    assert not TEMP_ARCHIVE.exists()
+    api, project, io = login
+    api.download_project(project.id, TEMP_ARCHIVE)
     pass
 
 
-def overleaf_sync(io):
+def overleaf_sync(login: OverleafLogin):
+    logging.debug("Syncing project...")
+    assert not REMOTE_ARCHIVE.exists()
+    api, project, io = login
+    api.download_project(project.id, REMOTE_ARCHIVE)
     pass
 
 
@@ -56,15 +87,9 @@ def main():
             f"{TEMP_ARCHIVE} already exists: Please rename or delete this leftover archive"
         )
 
-    # Login to Overleaf
-    api = pyoverleaf.Api()
-    api.login_from_browser()
-    projects = api.get_projects()
-    for project in projects:
-        if project.name == PROJECT_NAME:
-            break
-    io = pyoverleaf.ProjectIO(api, project.id)
-    overleaf_op(io)
+    # Execute Overleaf operation
+    login = overleaf_login(PROJECT_NAME)
+    overleaf_op(login)
 
 
 if __name__ == "__main__":
