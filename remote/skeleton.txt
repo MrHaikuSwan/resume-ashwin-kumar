@@ -1,0 +1,32 @@
+High-Level structure info:
+- master.tex is intended to be a really long resume with everything I could possible want to put on a resume written out
+
+Notes:
+- should revisit section header names
+- should decide what I want to do with freshman year research
+- should decide what I want to do with extracurricular fields instead of projects
+- should definitely write some project subheadings
+    - unclear if this will help that much given work experience
+- should maybe take Maize Mirchi off?
+    - nah
+
+Nitpicks:
+- Why is the right margin larger for subheadings than it is for section headings?
+    - fixed
+- Decide if I should add more things to my contact information
+    - PERSONAL WEBSITE WHEN I FINISH IT
+- Decide if I should try to make the FontAwesome icons lower to account for the underlines under each of my pieces of contact info
+    - Don't worry about it
+- City & date is more indented than the margin for bullets
+    - Fixed
+- Space after Pitch Perfect! (but save the !)
+    - Fixed
+- Italics font is a bit hard to read
+    - Fixed
+- Might want to find a sans serif font for the whole thing\
+    - Fixed
+- Pick a better font
+    - Fixed
+
+Backlink to my resume content google doc:
+https://docs.google.com/document/d/1jsTplNgMDrQ5BR8BhjEpmAWy7fBZtD8AYxq-nVzUPdc/edit?usp=sharing

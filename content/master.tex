@@ -1,0 +1,252 @@
+%-------------------------
+% Resume in Latex
+% Author : Jake Gutierrez
+% Based off of: https://github.com/sb2nov/resume
+% License : MIT
+%------------------------
+
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\input{glyphtounicode}
+
+
+%----------FONT OPTIONS----------
+% sans-serif
+% \usepackage[sfdefault]{FiraSans}
+% \usepackage[sfdefault]{roboto}
+% \usepackage[sfdefault]{noto-sans}
+% \usepackage[default]{sourcesanspro}
+% \renewcommand{\familydefault}{\sfdefault}
+
+% serif
+% \usepackage{CormorantGaramond}
+% \usepackage{charter}
+
+% \usepackage[scaled]{uarial}
+% \usepackage[T1]{fontenc}
+
+\renewcommand{\familydefault}{\sfdefault}
+
+\usepackage{fontawesome5}
+
+\pagestyle{fancy}
+\fancyhf{} % clear all header and footer fields
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Adjust margins
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1.0in}
+
+\urlstyle{same}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Sections formatting
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\bfseries\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+% Ensure that generate pdf is machine readable/ATS parsable
+\pdfgentounicode=1
+
+%-------------------------
+% Custom commands
+\newcommand{\resumeItem}[1]{
+  \item\small{
+    {#1 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubSubheading}[2]{
+    \item
+    \begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}
+      \textit{\small#1} & \textit{\small #2} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & #2 \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
+
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0in, label={}]}
+
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=0.25in]}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+% Ashwin Custom Commands
+\newcommand{\mytexttilde}{\raisebox{0.5ex}{\texttildelow}}
+
+%-------------------------------------------
+%%%%%%  RESUME STARTS HERE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+
+%----------HEADING----------
+
+\begin{center}
+    \textbf{\Huge \scshape Ashwin Kumar} \\ \vspace{4pt}
+    \hspace{3pt}
+    \href{https://linkedin.com/in/ashwin-a-kumar}{\faLinkedin \thinspace \thinspace \underline{ashwin-a-kumar}}
+    \hspace{3pt}
+    \href{https://github.com/MrHaikuSwan}{\faGithub \thinspace \thinspace \underline{MrHaikuSwan}}
+    \hspace{3pt}
+    \href{mailto:ashwinak@umich.edu}{\faEnvelope \thinspace \thinspace \underline{ashwinak@umich.edu}} 
+\end{center}
+
+
+%-----------EDUCATION-----------
+\section{Education}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {University of Michigan -- Ann Arbor}{Ann Arbor, MI}
+      {M.S.E. in Computer Science}{May 2025}
+    \vspace{-7pt}
+    \resumeSubSubheading{B.S.E. in Computer Science, Minors in Math \& Entrepreneurship}{May 2024}
+    \resumeItemListStart
+        \resumeItem{GPA: 3.91/4.00 $\mid$ ACT: 36}
+    \resumeItemListEnd
+  \resumeSubHeadingListEnd
+
+%-----------WORK EXPERIENCE-----------
+\section{Work Experience}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {Mercoa \normalfont \emph{(Y Combinator W23)}}{San Francisco, CA}
+      {Product Engineering Intern}{June 2024 -- Present}
+      \resumeItemListStart
+        \resumeItem{Working alongside CEO/CTO founding team to publicly launch 8 new features, lead customer discovery interviews, and demo new features to customers and prospects}
+        \resumeItem{Building an AI agent to automatically pay utility bills as a service with RPA using Puppeteer and GPT4o to process an estimated total payment volume of \$500k/month}
+        \resumeItem{Developed an invoice builder portal using Next.js, TailwindCSS, and Prisma + Postgres where vendors can invoice customers through Mercoa's platform, launching to 30 enterprise customers}
+        \resumeItem{Built an AI classifier with GPT4o and BoundaryML to automatically create metadata tags for invoice line items}
+      \resumeItemListEnd
+      
+% -----------Multiple Positions Heading-----------
+%    \resumeSubSubheading
+%     {Software Engineer I}{Oct 2014 - Sep 2016}
+%     \resumeItemListStart
+%        \resumeItem{Apache Beam}
+%          {Apache Beam is a unified model for defining both batch and streaming data-parallel processing pipelines}
+%     \resumeItemListEnd
+%    \resumeSubHeadingListEnd
+%-------------------------------------------
+
+    \resumeSubheading
+      {Deepgram \normalfont \emph{(Series B)}}{Ann Arbor, MI}
+      {Software Engineering Intern}{May 2023 -- August 2023}
+      \resumeItemListStart
+        \resumeItem{Interned on the machine learning engineering team for a deep learning Automatic Speech Recognition (ASR) startup}
+        \resumeItem{Automated CI/CD QA pipeline for deep learning models, reducing manual deployment time by 95\%+}
+        \resumeItem{Created a proprietary Rust library to evaluate speech-to-text transcription accuracy using a C++ Foreign Function Interface (FFI) that was 10x faster than the best publicly available Rust libraries}
+        \resumeItem{Implemented authentication request caching from API customers, reducing company-wide auth traffic by 85\% and eliminating a denial of service (DOS) vulnerability}
+    \resumeItemListEnd
+
+    \resumeSubheading
+      {University of Michigan}{Ann Arbor, MI}
+      {Instructional Aide: Discrete Math (EECS 203) \& Machine Learning (EECS 445)}{January 2022 -- Present}
+      \resumeItemListStart
+        \resumeItem{Taught four semesters of EECS 203: Discrete Math (combinatorics, graphs, computational complexity, etc.) and for one semester of EECS 445: Machine Learning (supervised and unsupervised learning, neural networks, etc.)}
+        \resumeItem{Selected by Discrete Math faculty to lead the Discussion team (4 IAs), with responsibility for creating weekly discussion notes, slides, and quizzes (Winter 2024 semester)}
+      \resumeItemListEnd
+
+      \resumeSubSubheading
+      {Undergraduate Research Assistant}{October 2021 -- August 2022}
+      \resumeItemListStart
+        \resumeItem{Refactored 30\% of Python plotting package for the Aether weather model, plotting weather datasets 15x faster}
+        \resumeItem{Designed React feature for lung cancer screening decision aid site to improve accessibility for 416,000 annual visitors}
+      \resumeItemListEnd
+
+      % \resumeSubheading
+      % {iD Tech Camps}{Ann Arbor, MI}
+      % {Online Instructor \& Developer}{June 2022 -- August 2022}
+      % \resumeItemListStart
+      %   \resumeItem{Taught 50+ students programming (10-12 sessions/week) and built internal calendar tool for 300+ instructors}
+      % \resumeItemListEnd
+  \resumeSubHeadingListEnd
+
+
+%-----------LEADERSHIP EXPERIENCE-----------
+\section{Leadership Experience}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {Atlas Digital Consulting Group}{Ann Arbor, MI}
+      {Product Manager \& Director of Technical Development}{January 2023 -- Present}
+      \resumeItemListStart
+        \resumeItem{Consulted with an early-stage startup, managing a team of 6 to develop a new recipe recommendation system}
+        \resumeItem{Led weekly technical development workshops to train \mytexttilde 12 new members each semester}
+    \resumeItemListEnd
+  
+    \resumeSubheading
+      {Maize Mirchi A Cappella}{Ann Arbor, MI}
+      {Music Director \& Performer}{September 2021 -- Present}
+      \resumeItemListStart
+        \resumeItem{Music Director for 2022-23, when group placed 4th in the world at ICCA Finals (the Pitch Perfect competition!)}
+        \resumeItem{Led Fall’22 recruiting process (60+ auditions, 10+ hours of callbacks, and deliberations) to select 4 new members, and coordinated 6 hours of weekly rehearsals to prepare music for performances, competitions, and album recording}
+      \resumeItemListEnd
+  \resumeSubHeadingListEnd
+  
+%-----------PROJECTS-----------
+% \section{Projects}
+%     \resumeSubHeadingListStart
+%       \resumeProjectHeading
+%           {\textbf{Project 1} $|$ \emph{A, Couple, Technologies}}{June 2020 -- Present}
+%           \resumeItemListStart
+%             \resumeItem{TODO}
+%             \resumeItem{TODO}
+%             \resumeItem{TODO}
+%           \resumeItemListEnd
+%       \resumeProjectHeading
+%           {\textbf{Project 2} $|$ \emph{Some, More, Technologies}}{May 2018 -- May 2020}
+%           \resumeItemListStart
+%             \resumeItem{TODO}
+%             \resumeItem{TODO}
+%             \resumeItem{TODO}
+%           \resumeItemListEnd
+%     \resumeSubHeadingListEnd
+
+%-----------SKILLS-----------
+\section{Skills}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     \textbf{Languages: }{Python, JavaScript/TypeScript, C++, Rust, SQL, HTML/CSS} \\
+     \textbf{Technologies: }{React/Next.js, Vercel, Node, Docker, GCP, AWS, HuggingFace, PyTorch, Flask} \\
+    }}
+ \end{itemize}
+
+%-------------------------------------------
+
+\end{document}
+
