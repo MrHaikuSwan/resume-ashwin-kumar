@@ -1,6 +1,6 @@
 {
   "project_name": "Kumar_Ashwin_Resume",
   "content_dir": "content/",
-  "remote_archive": "remote.zip",
+  "remote_dir": "remote/",
   "temp_archive": "temp.zip"
 }

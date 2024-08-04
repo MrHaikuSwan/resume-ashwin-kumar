@@ -23,7 +23,7 @@
 - Can overwrite changes on local, since local Git has good version management
 - Pulls remote Overleaf content to a temporary local archive (as a .zip)
 - Overwrites locally maintained content and remote archives with remote Overleaf content
-  - Note: Have to unzip temporray local archive before overwriting content archive
+  - Note: Have to unzip temporary local archive before overwriting content archive
 - Commits and pushes changes to GitHub repository
 
 ## `overleaf-sync`
