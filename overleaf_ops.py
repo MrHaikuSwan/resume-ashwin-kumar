@@ -12,9 +12,9 @@ with open("config.json") as config_file:
     config = json.load(config_file)
     PROJECT_NAME = Path(config["project_name"])
     CONTENT_DIR = Path(config["content_dir"])
-    REMOTE_DIR = Path(config["remote_dir"])
-    TEMP_DIR = Path(config["temp_dir"])
-    logging.debug(f"config: {json.dumps(config, indent=2)}")
+    REMOTE_ARCHIVE = Path(config["remote_archive"])
+    TEMP_ARCHIVE = Path(config["temp_archive"])
+    logging.debug(f"config:\n{json.dumps(config, indent=2)}")
 
 
 def overleaf_push(io):
@@ -42,15 +42,18 @@ def main():
     overleaf_op = overleaf_ops[command]
 
     # Validate folder setup
-    if not REMOTE_DIR.exists():
-        raise FileNotFoundError(
-            f"{REMOTE_DIR} does not exist: Please run `overleaf-sync` first"
-        )
-    if TEMP_DIR.exists():
-        raise FileExistsError(f"{TEMP_DIR} already exists: Please remove it first")
-    if command in ["push", "pull"] and not CONTENT_DIR.exists():
-        raise FileNotFoundError(
-            f"{CONTENT_DIR} does not exist: Please create a content directory first"
+    if command in ["push", "pull"]:
+        if not REMOTE_ARCHIVE.exists():
+            raise FileNotFoundError(
+                f"{REMOTE_ARCHIVE} does not exist: Please run `overleaf-sync` first"
+            )
+        if not CONTENT_DIR.exists():
+            raise FileNotFoundError(
+                f"{CONTENT_DIR} does not exist: Please create a content directory first"
+            )
+    if TEMP_ARCHIVE.exists():
+        raise FileExistsError(
+            f"{TEMP_ARCHIVE} already exists: Please rename or delete this leftover archive"
         )
 
     # Login to Overleaf
