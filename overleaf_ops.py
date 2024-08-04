@@ -154,6 +154,31 @@ def overleaf_sync(login: OverleafLogin):
     logging.debug("Finished syncing project.")
 
 
+def overleaf_check(login: OverleafLogin):
+    logging.debug("Checking for synchronicity...")
+
+    temp_dir = Path(TEMP_ARCHIVE.stem)
+    assert not temp_dir.exists()
+
+    # Download project, unzip to temporary directory
+    api, project, _ = login
+    api.download_project(project.id, TEMP_ARCHIVE)
+    temp_dir.mkdir()
+    with zipfile.ZipFile(TEMP_ARCHIVE, "r") as zip_ref:
+        zip_ref.extractall(temp_dir)
+
+    # Compare remote/ and pulled content, notify user (diffs are expected)
+    dcmp = dircmp(REMOTE_DIR, temp_dir)
+    if dcmp.diff_files or dcmp.left_only or dcmp.right_only or dcmp.funny_files:
+        print("Differences found between remote and pulled content:\n---")
+        dcmp.report()
+        print("---")
+    shutil.rmtree(temp_dir)
+
+    assert not TEMP_ARCHIVE.exists()
+    logging.debug("Synchronization check complete.")
+
+
 def main():
     logging.basicConfig(level=logging.INFO)
 
