@@ -66,7 +66,7 @@ def overleaf_push(login: OverleafLogin):
         io.remove(path)
 
     # Re-synchronize remote/ with remote Overleaf content
-    temp_remote_dir = Path(f"temp_{REMOTE_DIR}")
+    temp_remote_dir = Path(f"{REMOTE_DIR}_temp")
     shutil.move(REMOTE_DIR, temp_remote_dir, copy_function=shutil.copytree)
     REMOTE_DIR.mkdir()
     shutil.copytree(CONTENT_DIR, REMOTE_DIR, dirs_exist_ok=True)
@@ -109,8 +109,8 @@ def overleaf_pull(login: OverleafLogin):
 
     # Safely overwrite REMOTE_DIR and CONTENT_DIR with pulled content
     with zipfile.ZipFile(TEMP_ARCHIVE, "r") as zip_ref:
-        temp_remote_dir = Path(f"temp_{REMOTE_DIR}")
-        temp_content_dir = Path(f"temp_{CONTENT_DIR}")
+        temp_remote_dir = Path(f"{REMOTE_DIR}_temp")
+        temp_content_dir = Path(f"{CONTENT_DIR}_temp")
         shutil.move(REMOTE_DIR, temp_remote_dir, copy_function=shutil.copytree)
         shutil.move(CONTENT_DIR, temp_content_dir, copy_function=shutil.copytree)
         REMOTE_DIR.mkdir()
