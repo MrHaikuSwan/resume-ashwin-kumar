@@ -8,7 +8,7 @@ Eventually, I'd like to import the package here and take all the code out of thi
 
 ## Resume
 
-If you legitimately just came here to find my resume, I'm 1) really impressed by your dedication and 2) [happy to share it](https://ashwinak-resume.tiiny.site/)! While you're at it, feel free to check out my [LinkedIn](https://www.linkedin.com/in/ashwinak/) and [website](https://ashwinak.com) as well! Additionally, if you're technical and have ideas on how I can improve this, I'm all ears.
+If you legitimately just came here to find my resume, I'm 1) really impressed by your dedication and 2) [happy to share it](https://ashwinak-resume.tiiny.site/)! While you're at it, feel free to check out my [LinkedIn](https://www.linkedin.com/in/ashwinak/) and [website](https://ashwinak.com) as well (currently under construction)! Additionally, if you're technical and have ideas on how I can improve this, I'm all ears.
 
 ## Setup
 
