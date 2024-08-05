@@ -1,8 +1,8 @@
+import click
 from filecmp import dircmp
 from pathlib import Path
 import logging
 import shutil
-import sys
 import zipfile
 
 from config import PROJECT_ID, PROJECT_NAME, TEMP_ARCHIVE, REMOTE_DIR, CONTENT_DIR
@@ -191,15 +191,15 @@ def overleaf_check(login: OverleafLogin):
     logger.info("Synchronization check complete.")
 
 
-def main():
+@click.command()
+@click.argument(
+    "operation", type=click.Choice(["push", "pull", "sync", "check", "configure"])
+)
+def main(operation):
     logging.basicConfig(level=logging.INFO)
 
-    # Get cmdline args
-    allowed_ops = ["push", "pull", "sync", "check", "configure"]
-    if len(sys.argv) != 2 or sys.argv[1] not in allowed_ops:
-        print(f"\nUsage: python3 overleaf_ops.py [{'|'.join(allowed_ops)}]")
-        return
-    if sys.argv[1] == "configure":
+    # Handle selected command line operation
+    if operation == "configure":
         overleaf_configure()
         return
 
@@ -209,19 +209,18 @@ def main():
         "sync": overleaf_sync,
         "check": overleaf_check,
     }
-    command = sys.argv[1]
-    overleaf_op = overleaf_ops[command]
+    overleaf_op = overleaf_ops[operation]
 
     # Validate folder setup
     if TEMP_ARCHIVE.exists():
         raise FileExistsError(
             f"{TEMP_ARCHIVE} already exists: Please rename or delete this leftover archive"
         )
-    if command in ["push", "pull"] and not REMOTE_DIR.exists():
+    if operation in ["push", "pull"] and not REMOTE_DIR.exists():
         raise FileNotFoundError(
             f"{REMOTE_DIR} does not exist: Please run `overleaf-sync` before pushing or pulling"
         )
-    if command == "push" and not CONTENT_DIR.exists():
+    if operation == "push" and not CONTENT_DIR.exists():
         raise FileNotFoundError(
             f"{CONTENT_DIR} does not exist: Please create a content directory before pushing"
         )
