@@ -185,6 +185,8 @@ def overleaf_check(login: OverleafLogin):
         print(f"Differences found between {REMOTE_DIR} and pulled content:\n---")
         dcmp.report()
         print("---")
+    else:
+        print(f"No differences found between {REMOTE_DIR} and pulled content")
     shutil.rmtree(temp_dir)
 
     assert not TEMP_ARCHIVE.exists()
