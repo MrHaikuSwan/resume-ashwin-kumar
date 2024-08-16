@@ -2,6 +2,8 @@
 
 # overleaf-check
 
+# This script checks if your local files and Overleaf project are in sync.
+
 set -o errexit   # abort on nonzero exitstatus
 set -o nounset   # abort on unbound variable
 set -o pipefail  # don't hide errors within pipes

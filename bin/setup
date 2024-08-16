@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+# overleaf-setup
+
+# This script sets up a virtual environment and installs the required Python packages.
+
+set -o errexit   # abort on nonzero exitstatus
+set -o nounset   # abort on unbound variable
+set -o pipefail  # don't hide errors within pipes
+
+parent_path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
+cd "$parent_path/.."
+
+if test -d env
+then
+  echo "ERROR: env directory already exists. Please remove it before running this script."
+  exit 1
+fi
+
+python3 -m venv env
+source env/bin/activate
+pip install -r requirements.txt
+
+echo "Environment setup complete!"

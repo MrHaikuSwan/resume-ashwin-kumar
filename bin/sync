@@ -2,6 +2,8 @@
 
 # overleaf-sync
 
+# This script synchronizes your local files with your remote content on Overleaf.
+
 set -o errexit   # abort on nonzero exitstatus
 set -o nounset   # abort on unbound variable
 set -o pipefail  # don't hide errors within pipes
