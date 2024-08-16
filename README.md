@@ -13,10 +13,11 @@ If you legitimately just came here to find my resume, I'm 1) really impressed by
 ## Setup
 
 1. Clone this repository.
-2. Make sure you are logged into Overleaf on your default browser.
-3. Run `bin/configure` to select your desired project.
+2. Activate the virtual environment if it is not already activated with `source env/bin/activate`.
+3. Make sure you are logged into Overleaf on your default browser.
+4. Run `bin/configure` to select your desired project.
    - NOTE: The first time you run this, you may be asked to grant Python permissions a few times.
-4. Run `bin/pull` to pull your current project into your local repo.
+5. Run `bin/pull` to pull your current project into your local repo.
 
 ## Usage
 
