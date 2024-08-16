@@ -12,9 +12,9 @@ If you legitimately just came here to find my resume, I'm 1) really impressed by
 
 ## Setup
 
-1. Clone this repository.
-2. Run `bin/setup` to set up the virtual environment and install the required packages.
-   - If you have already run `bin/setup`, make sure it's active with the correct dependencies by running `source env/bin/activate`.
+1. Fork this repository and clone it.
+2. Run `bin/setup` to set up the virtual environment, install the required packages, and clean up the (my) existing resume files.
+   - Make sure the virtual environment is active after this by running `source env/bin/activate` if necessary.
 3. Make sure you are logged into Overleaf on your default browser.
 4. Run `bin/configure` to select your desired project.
    - NOTE: The first time you run this, you may be asked to grant Python permissions a few times.

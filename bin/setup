@@ -21,4 +21,11 @@ python3 -m venv env
 source env/bin/activate
 pip install -r requirements.txt
 
-echo "Environment setup complete!"
+echo "Python virtual environment and required packages installed."
+
+rm -rf content
+rm -rf remote
+mkdir content
+mkdir remote
+
+echo "Cleaned up existing content and remote directories."
