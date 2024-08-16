@@ -13,7 +13,8 @@ If you legitimately just came here to find my resume, I'm 1) really impressed by
 ## Setup
 
 1. Clone this repository.
-2. Activate the virtual environment if it is not already activated with `source env/bin/activate`.
+2. Run `bin/setup` to set up the virtual environment and install the required packages.
+   - If you have already run `bin/setup`, make sure it's active with the correct dependencies by running `source env/bin/activate`.
 3. Make sure you are logged into Overleaf on your default browser.
 4. Run `bin/configure` to select your desired project.
    - NOTE: The first time you run this, you may be asked to grant Python permissions a few times.
