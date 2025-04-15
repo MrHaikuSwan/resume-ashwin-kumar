@@ -1,5 +1,5 @@
 beautifulsoup4==4.12.3
-browsercookie==0.7.9
+browsercookie==0.8.1
 certifi==2024.7.4
 charset-normalizer==3.3.2
 click==8.1.7
