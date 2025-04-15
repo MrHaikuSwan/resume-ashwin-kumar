@@ -127,8 +127,7 @@
     \href{mailto:ashwinak@umich.edu}{\faEnvelope \thinspace \thinspace \underline{ashwinak@umich.edu}} 
 \end{center}
 
-
-%-----------EDUCATION-----------
+ %-----------EDUCATION-----------
 \section{Education}
   \resumeSubHeadingListStart
     \resumeSubheading
@@ -139,18 +138,26 @@
     \resumeItemListEnd
   \resumeSubHeadingListEnd
 
+
 %-----------WORK EXPERIENCE-----------
 \section{Work Experience}
   \resumeSubHeadingListStart
     \resumeSubheading
       {Mercoa \normalfont \emph{(Y Combinator W23)}}{San Francisco, CA}
+      {Founding Engineer \#1}{September 2024 -- Present}
+      \resumeItemListStart
+        \resumeItem{Built \color{blue}\href{https://mercoa.com/solutions/ai-agents}{\textbf{MAi}}\color{black}, an AI agent that automates invoicing and late payment collection for accounts receivable teams -- launch generated inbound interest representing 50\% of then-current ARR}
+        \resumeItem{Shipped a net-new recurring payments capability for accounts payable to an enterprise client serving 10,000+ end customers}
+      \resumeItemListEnd
+
+    \resumeSubSubheading
       {Product Engineering Intern}{June 2024 -- August 2024}
       \resumeItemListStart
-        \resumeItem{Worked alongside CEO/CTO founding team to publicly launch 8 new features, lead customer discovery interviews, and demo new features to customers and prospects}
-        \resumeItem{Developed an invoice builder portal using Next.js, TailwindCSS, and Prisma + Postgres for vendors to invoice customers on-platform, serving 40 active enterprise customers}
-        \resumeItem{Refactored invoice OCR pipeline with prompt engineering and advanced response coercion on Claude 3.5 Sonnet to increase reliability and decrease latency by 30\%, processing 1,500+ invoices/month}
-        \resumeItem{Built an AI classifier with GPT4oMini and BoundaryML to automatically create metadata tags for invoice line items}
-        \resumeItem{Launched Utility Pay, a service to pay customer utility bills via RPA (robotic process automation) using Puppeteer and GPT4o processing 100+ bills/month}
+        % \resumeItem{Worked alongside CEO/CTO founding team to publicly launch 8 new features, lead customer discovery interviews, and demo new features to customers and prospects}
+        \resumeItem{Refactored the invoice OCR pipeline to process 100+ page invoice PDFs with 30\% lower latency and increased reliability using multi-model fallback and structured response coercion (\color{blue}\href{https://mercoa.com/blog/building-invoice-ocr-in-three-days-with-type-safe-llm-calls}{\textbf{blog post}}\color{black}) -- now processes 6,000+ invoices/month}
+        \resumeItem{Developed an invoice creation portal using Next.js, TailwindCSS, and Prisma + Postgres, enabling vendors to invoice customers directly on-platform}
+        % \resumeItem{Built an AI classifier with GPT4oMini and BoundaryML to automatically create metadata tags for invoice line items}
+        % \resumeItem{Launched Utility Pay, a service to pay customer utility bills via RPA (robotic process automation) using Puppeteer and GPT4o processing 100+ bills/month}
       \resumeItemListEnd
       
 % -----------Multiple Positions Heading-----------
@@ -168,8 +175,8 @@
       {Software Engineering Intern}{May 2023 -- August 2023}
       \resumeItemListStart
         \resumeItem{Interned on the machine learning engineering team for a deep learning Automatic Speech Recognition (ASR) startup}
-        \resumeItem{Automated CI/CD QA pipeline for deep learning models, reducing manual deployment time by 95\%+}
-        \resumeItem{Created a proprietary Rust library to evaluate speech-to-text transcription accuracy using a C++ Foreign Function Interface (FFI) that was 10x faster than the best publicly available Rust libraries}
+        \resumeItem{Automated team's CI/CD QA pipeline for deep learning models, reducing manual deployment time by 95\%+}
+        \resumeItem{Created a proprietary Rust library to evaluate speech-to-text transcription accuracy with a C++ Foreign Function Interface (FFI) -- performed 10x faster than the best publicly available Rust libraries}
         \resumeItem{Implemented authentication request caching from API customers, reducing company-wide auth traffic by 85\% and eliminating a denial of service (DOS) vulnerability}
     \resumeItemListEnd
 
@@ -177,8 +184,8 @@
       {University of Michigan}{Ann Arbor, MI}
       {Instructional Aide: Discrete Math (EECS 203) \& Machine Learning (EECS 445)}{January 2022 -- May 2024}
       \resumeItemListStart
-        \resumeItem{Taught four semesters of EECS 203: Discrete Math (combinatorics, graphs, computational complexity, etc.) and for one semester of EECS 445: Machine Learning (supervised and unsupervised learning, neural networks, etc.)}
-        \resumeItem{Selected by Discrete Math faculty to lead the Discussion team (4 IAs), with responsibility for creating weekly discussion notes, slides, and quizzes (Winter 2024 semester)}
+        \resumeItem{Taught four semesters of EECS 203: Discrete Math (combinatorics, graphs, computational complexity, etc.) and one semester of EECS 445: Machine Learning (supervised and unsupervised learning, neural networks, etc.)}
+        \resumeItem{Selected by Discrete Math faculty to lead the Discussion team (4 TAs), with responsibility for creating weekly discussion notes, slides, and quizzes (Winter 2024 semester)}
       \resumeItemListEnd
 
       \resumeSubSubheading
@@ -202,17 +209,17 @@
   \resumeSubHeadingListStart
     \resumeSubheading
       {Atlas Digital Consulting Group}{Ann Arbor, MI}
-      {Director of Technical Development \& Project Manager}{January 2023 -- Present}
+      {Director of Technical Development \& Project Manager}{January 2023 -- May 2024}
       \resumeItemListStart
-        \resumeItem{Consulted with an early-stage startup, managing a team of 6 to develop a new recipe recommendation system}
-        \resumeItem{Led weekly technical development workshops to train \mytexttilde 12 new members each semester}
+        \resumeItem{Consulted with an early-stage startup, managing a team of 6 to develop a recipe recommendation system}
+        \resumeItem{Guided \mytexttilde 12 new members each semester in weekly technical development workshops}
     \resumeItemListEnd
   
     \resumeSubheading
       {Maize Mirchi A Cappella}{Ann Arbor, MI}
-      {Music Director \& Performer}{September 2021 -- Present}
+      {Music Director \& Performer}{September 2021 -- May 2024}
       \resumeItemListStart
-        \resumeItem{Music Director for 2022-23, when group placed 4th in the world at ICCA Finals (the Pitch Perfect competition!)}
+        \resumeItem{Music Director for 2022-23, when group placed 4th in the world at ICCA Finals (yes, the Pitch Perfect competition!)}
         \resumeItem{Led Fall’22 recruiting process (60+ auditions, 10+ hours of callbacks, and deliberations) to select 4 new members, and coordinated 6 hours of weekly rehearsals to prepare music for performances, competitions, and album recording}
       \resumeItemListEnd
   \resumeSubHeadingListEnd
@@ -238,13 +245,12 @@
 
 %-----------SKILLS-----------
 \section{Skills}
- \begin{itemize}[leftmargin=0.15in, label={}]
+ \begin{itemize}[leftmargin=0.00in, label={}]
     \small{\item{
-     \textbf{Languages: }{Python, JavaScript/TypeScript, C++, Rust, SQL, HTML/CSS} \\
-     \textbf{Technologies: }{React/Next.js, Vercel, Node, Docker, GCP, AWS, HuggingFace, PyTorch, Flask} \\
+     \textbf{Languages: }{JavaScript/TypeScript, Python, C++, Rust, Java, Kotlin} \\
+     \textbf{Technologies: }{React/Next.js, Node.js, Express, Prisma, Docker, GCP, AWS, HuggingFace, PyTorch, Flask} \\
     }}
  \end{itemize}
-
 %-------------------------------------------
 
 \end{document}
