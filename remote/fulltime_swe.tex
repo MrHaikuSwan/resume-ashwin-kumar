@@ -36,9 +36,9 @@
 % \usepackage[scaled]{uarial}
 % \usepackage[T1]{fontenc}
 
-\renewcommand{\familydefault}{\sfdefault}
-
 \usepackage{fontawesome5}
+
+\renewcommand{\familydefault}{\sfdefault}
 
 \pagestyle{fancy}
 \fancyhf{} % clear all header and footer fields
@@ -106,12 +106,18 @@
 \newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=0.25in]}
 \newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
 
-% Ashwin Custom Commands
+
+%%%%%%%%%%%%%%%%%%%%%% Ashwin Custom Commands %%%%%%%%%%%%%%%%%%%%
 \newcommand{\mytexttilde}{\raisebox{0.5ex}{\texttildelow}}
+
+% --- Custom font sizing (Remove this if things get weird!) ---
+% \renewcommand{\normalsize}{\fontsize{11.5pt}{13.5pt}\selectfont}
+\renewcommand{\small}{\fontsize{10pt}{13pt}\selectfont}
+% \renewcommand{\footnotesize}{\fontsize{9.5pt}{11.5pt}\selectfont}
+
 
 %-------------------------------------------
 %%%%%%  RESUME STARTS HERE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 
 \begin{document}
 
@@ -145,17 +151,18 @@
       {Mercoa \normalfont \emph{(Y Combinator W23)}}{San Francisco, CA}
       {Founding Engineer \#1}{September 2024 -- Present}
       \resumeItemListStart
-        \resumeItem{Built \color{blue}\href{https://mercoa.com/solutions/ai-agents}{\textbf{MAi}}\color{black}, an AI agent that automates invoicing and late payment collection for accounts receivable (AR) teams -- launch generated inbound interest representing 50\% of then-current ARR}
-        \resumeItem{Shipped a net-new recurring payments feature for accounts payable to an enterprise client serving 10,000+ end customers}
-        \resumeItem{Refactored core transaction datamodel for multi-step money movement, implementing changes across 7 payment rails}
-        \resumeItem{Executed white-glove install for a customer in 3 weeks, enabling rapid onboarding of largest AR customer (\$200k+ TPV)}
+        \resumeItem{Built \color{blue}\href{https://mercoa.com/solutions/ai-agents}{\textbf{MAi}}\color{black}, an AI agent that automates invoicing and late payment collection for accounts receivable (AR) teams with advanced prompt engineering -- launch generated \$200k in new pipeline opportunities, totaling half of current ARR}
+        % \resumeItem{Redesigned and implemented core data-model and business logic to support multi-step money movement, safely deploying changes across 7 payment rails to move \$20M/month}
+        \resumeItem{Redesigned and migrated core transaction processing data model and business logic to support multi-step money movement, deploying changes across 7 payment rails to power \$20M+ in monthly payment volume}
+        \resumeItem{Delivered new recurring payments feature end-to-end to company's largest enterprise client serving 10,000+ end customers}
+        \resumeItem{Executed white-glove installation into customer's app in 3 weeks by collaborating with customer engineering team, directly resulting in rapid onboarding of largest AR customer (\$200k+ TPV)}
       \resumeItemListEnd
 
     \resumeSubSubheading
       {Product Engineering Intern}{June 2024 -- August 2024}
       \resumeItemListStart
         % \resumeItem{Worked alongside CEO/CTO founding team to publicly launch 8 new features, lead customer discovery interviews, and demo new features to customers and prospects}
-        \resumeItem{Refactored the invoice OCR pipeline to process 100+ page invoice PDFs with 30\% lower latency and increased reliability using multi-model fallback and structured response coercion (\color{blue}\href{https://mercoa.com/blog/building-invoice-ocr-in-three-days-with-type-safe-llm-calls}{\textbf{blog post}}\color{black}) -- now processes 6,000+ invoices/month}
+        \resumeItem{Refactored core invoice OCR pipeline to process 100+ page invoice PDFs with 30\% lower latency and increased reliability using multi-model fallback and structured response coercion (\color{blue}\href{https://mercoa.com/blog/building-invoice-ocr-in-three-days-with-type-safe-llm-calls}{\textbf{blog post}}\color{black}) -- now processes 11,000+ invoices/month}
         \resumeItem{Developed an invoice creation portal using Next.js, TailwindCSS, and Prisma + Postgres, enabling vendors to invoice customers directly on-platform}
         % \resumeItem{Built an AI classifier with GPT4oMini and BoundaryML to automatically create metadata tags for invoice line items}
         % \resumeItem{Launched Utility Pay, a service to pay customer utility bills via RPA (robotic process automation) using Puppeteer and GPT4o processing 100+ bills/month}
@@ -183,16 +190,16 @@
 
     \resumeSubheading
       {University of Michigan}{Ann Arbor, MI}
-      {Instructional Aide: Discrete Math (EECS 203) \& Machine Learning (EECS 445)}{January 2022 -- May 2024}
+      {Instructional Aide: Machine Learning \& Discrete Math}{January 2022 -- May 2024}
       \resumeItemListStart
-        \resumeItem{Taught four semesters of EECS 203: Discrete Math (combinatorics, graphs, computational complexity, etc.) and one semester of EECS 445: Machine Learning (supervised and unsupervised learning, neural networks, etc.)}
+        \resumeItem{Taught EECS 445: Machine Learning (supervised and unsupervised learning, neural networks w/ PyTorch, boosting, etc.) and EECS 203: Discrete Math (combinatorics, graphs, computational complexity, etc.) across 5 semesters}
         % \resumeItem{Selected by Discrete Math faculty to lead the Discussion team (4 TAs), with responsibility for creating weekly discussion notes, slides, and quizzes (Winter 2024 semester)}
       \resumeItemListEnd
 
       \resumeSubSubheading
       {Undergraduate Research Assistant}{October 2021 -- August 2022}
       \resumeItemListStart
-        \resumeItem{Refactored 30\% of Python plotting package for the Aether weather model, plotting weather datasets 15x faster}
+        \resumeItem{Refactored 30\% of Python plotting package for the Aether global weather model, plotting weather datasets 15x faster}
         \resumeItem{Designed React feature for lung cancer screening decision aid site to improve accessibility for 416,000 annual visitors}
       \resumeItemListEnd
 
@@ -208,32 +215,50 @@
 %-----------LEADERSHIP EXPERIENCE-----------
 \section{Leadership Experience}
   \resumeSubHeadingListStart
-    \resumeSubheading
-      {Atlas Digital Consulting Group}{Ann Arbor, MI}
-      {Director of Technical Development \& Project Manager}{January 2023 -- May 2024}
+    \resumeProjectHeading
+      {\textbf{Atlas Digital Consulting Group} $|$ \emph{Director of Technical Development \& Project Manager}}{Jan 2023 -- May 2024}
       \resumeItemListStart
-        \resumeItem{Directed a team of 6 to deliver a recipe recommendation system for an early-stage AI startup}
+        \resumeItem{Led a team of 6 to build a recipe recommendation system using vector search for an early-stage AI startup}
         % \resumeItem{Consulted with an early-stage startup, managing a team of 6 to develop a recipe recommendation system}
         % \resumeItem{Guided \mytexttilde 12 new members each semester in weekly technical development workshops}
-    \resumeItemListEnd
-  
-    \resumeSubheading
-      {Maize Mirchi A Cappella}{Ann Arbor, MI}
-      {Music Director \& Performer}{September 2021 -- May 2024}
+      \resumeItemListEnd
+
+    \resumeProjectHeading
+      {\textbf{Maize Mirchi A Cappella} $|$ \emph{Music Director \& Performer}}{Sep 2021 -- May 2024}
       \resumeItemListStart
-        \resumeItem{Music Director for 2022-23, when group placed 4th in the world at ICCA Finals (yes, the Pitch Perfect competition!)}
+        \resumeItem{Music Director for 2022–23, when group placed 4th in the world at ICCA Finals (yes, the Pitch Perfect competition!)}
         % \resumeItem{Led Fall’22 recruiting process (60+ auditions, 10+ hours of callbacks, and deliberations) to select 4 new members, and coordinated 6 hours of weekly rehearsals to prepare music for performances, competitions, and album recording}
       \resumeItemListEnd
   \resumeSubHeadingListEnd
 
+% \section{Leadership Experience}
+%   \resumeSubHeadingListStart
+%     \resumeSubheading
+%       {Atlas Digital Consulting Group}{Ann Arbor, MI}
+%       {Director of Technical Development \& Project Manager}{January 2023 -- May 2024}
+%       \resumeItemListStart
+%         \resumeItem{Directed a team of 6 to deliver a recipe recommendation system for an early-stage AI startup}
+%         % \resumeItem{Consulted with an early-stage startup, managing a team of 6 to develop a recipe recommendation system}
+%         % \resumeItem{Guided \mytexttilde 12 new members each semester in weekly technical development workshops}
+%     \resumeItemListEnd
+  
+%     \resumeSubheading
+%       {Maize Mirchi A Cappella}{Ann Arbor, MI}
+%       {Music Director \& Performer}{September 2021 -- May 2024}
+%       \resumeItemListStart
+%         \resumeItem{Music Director for 2022-23, when group placed 4th in the world at ICCA Finals (yes, the Pitch Perfect competition!)}
+%         % \resumeItem{Led Fall’22 recruiting process (60+ auditions, 10+ hours of callbacks, and deliberations) to select 4 new members, and coordinated 6 hours of weekly rehearsals to prepare music for performances, competitions, and album recording}
+%       \resumeItemListEnd
+%   \resumeSubHeadingListEnd
+
   %-----------SKILLS-----------
 \section{Skills}
- \begin{itemize}[leftmargin=0.00in, label={}]
-    \small{\item{
-     \textbf{Languages: }{JavaScript/TypeScript, Python, C++, Rust, Java, Kotlin} \\
-     \textbf{Technologies: }{React/Next.js, Node.js, Express, Docker, GCP, AWS, PyTorch, Flask} \\
-    }}
- \end{itemize}
+\begin{itemize}[leftmargin=0.00in, label={}]
+  \small{\item{
+    \textbf{Languages:} TypeScript/JavaScript, Python, C++, Rust, Java, Kotlin \\[2pt]
+    \textbf{Technologies:} React/Next.js, Node.js, Express, Flask, PyTorch, Docker, PostgreSQL, GCP, AWS
+  }}
+\end{itemize}
   
 %-----------PROJECTS-----------
 % \section{Projects}
